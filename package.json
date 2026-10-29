@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "postbuild": "node -e \"const fs=require('fs'); if(fs.existsSync('out')){ fs.rmSync('dist', {recursive:true, force:true}); fs.cpSync('out', 'dist', {recursive: true}); console.log('Successfully prepared dist directory for Render deployment.'); }\"",
     "start": "next start",
     "lint": "next lint"
   },
@@ -29,4 +30,3 @@
     "typescript": "^5.6.3"
   }
 }
-
