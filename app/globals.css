@@ -3,38 +3,36 @@
 @tailwind utilities;
 
 :root {
-  --color-primary-bg: #FFFFFF;
-  --color-secondary-bg: #F7FAF7;
-  --color-soft-green: #EAF3E9;
-  --color-pastel-green: #B8D8B5;
-  --color-brand-green: #668C63;
-  --color-brand-hover: #466A45;
-  --color-primary-text: #111311;
-  --color-secondary-text: #666B66;
-  --color-border: #E5EAE4;
-  --color-dark-feature: #111411;
-  --color-dark-text: #FFFFFF;
+  --color-white: #FFFFFF;
+  --color-offwhite: #F8F8F4;
+  --color-pistachio: #C7DDB0;
+  --color-sage: #A9C49A;
+  --color-deepgreen: #5C7651;
+  --color-lightgrey: #E8E9E5;
+  --color-midgrey: #858780;
+  --color-charcoal: #252724;
+  --color-nearblack: #111310;
 }
 
 @layer base {
   html {
     scroll-behavior: smooth;
     background-color: #FFFFFF;
-    color: #111311;
+    color: #252724;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
 
   body {
     background-color: #FFFFFF;
-    color: #111311;
+    color: #252724;
     font-feature-settings: "cv02", "cv03", "cv04", "cv11";
     overflow-x: hidden;
   }
 
   ::selection {
-    background-color: #B8D8B5;
-    color: #111311;
+    background-color: #C7DDB0;
+    color: #252724;
   }
 }
 
@@ -43,34 +41,36 @@
     text-wrap: balance;
   }
   
-  .backdrop-blur-glass {
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-  }
-
   .border-hairline {
     border-width: 1px;
-    border-color: #E5EAE4;
+    border-color: #E8E9E5;
   }
 }
 
 /* Custom Scrollbar */
 ::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+  width: 7px;
+  height: 7px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #F7FAF7;
+  background: #F8F8F4;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #B8D8B5;
+  background: #C7DDB0;
   border-radius: 9999px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #668C63;
+  background: #A9C49A;
+}
+
+/* Treatment discovery rail scroll styling */
+.horizontal-rail {
+  scrollbar-width: thin;
+  scrollbar-color: #C7DDB0 #F8F8F4;
+  -webkit-overflow-scrolling: touch;
 }
 
 /* Respect Reduced Motion */
@@ -84,4 +84,3 @@
     scroll-behavior: auto !important;
   }
 }
-

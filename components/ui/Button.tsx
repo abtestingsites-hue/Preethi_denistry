@@ -3,7 +3,7 @@ import { cn } from "@/lib/utils";
 
 export interface ButtonProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  variant?: "primary" | "pastel" | "outline" | "dark" | "ghost";
+  variant?: "primary" | "pastel" | "pistachio" | "outline" | "dark" | "ghost";
   size?: "sm" | "md" | "lg";
   isLoading?: boolean;
   leftIcon?: React.ReactNode;
@@ -26,25 +26,27 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     ref
   ) => {
     const baseStyles =
-      "inline-flex items-center justify-center font-medium rounded-full transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#668C63] focus-visible:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none select-none active:scale-[0.98]";
+      "inline-flex items-center justify-center font-medium rounded-full transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#5C7651] focus-visible:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none select-none active:scale-[0.98]";
 
     const sizeStyles = {
       sm: "text-xs px-4 py-2 gap-1.5",
-      md: "text-sm px-6 py-3 gap-2",
-      lg: "text-base px-8 py-4 gap-2.5",
+      md: "text-sm px-6 py-2.5 gap-2",
+      lg: "text-base px-8 py-3.5 gap-2.5",
     };
 
     const variantStyles = {
       primary:
-        "bg-[#668C63] text-white hover:bg-[#466A45] shadow-sm hover:shadow-md",
+        "bg-[#5C7651] text-white hover:bg-[#495F40] shadow-sm hover:shadow-subtle",
+      pistachio:
+        "bg-[#C7DDB0] text-[#252724] hover:bg-[#B5CD9E] font-medium shadow-sm",
       pastel:
-        "bg-[#B8D8B5] text-[#111311] hover:bg-[#a6cca3] font-semibold shadow-sm",
+        "bg-[#C7DDB0] text-[#252724] hover:bg-[#B5CD9E] font-medium shadow-sm",
       dark:
-        "bg-[#111411] text-white hover:bg-[#252a25] shadow-sm hover:shadow-md",
+        "bg-[#252724] text-white hover:bg-[#111310] shadow-sm hover:shadow-card",
       outline:
-        "border border-[#E5EAE4] bg-white text-[#111311] hover:bg-[#EAF3E9] hover:border-[#668C63]",
+        "border border-[#E8E9E5] bg-white text-[#252724] hover:bg-[#F8F8F4] hover:border-[#5C7651]",
       ghost:
-        "text-[#111311] hover:bg-[#F7FAF7] hover:text-[#466A45]",
+        "text-[#252724] hover:bg-[#F8F8F4] hover:text-[#5C7651]",
     };
 
     return (
@@ -59,36 +61,16 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         )}
         {...props}
       >
-        {isLoading && (
-          <svg
-            className="animate-spin -ml-1 mr-2 h-4 w-4 text-current"
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            aria-hidden="true"
-          >
-            <circle
-              className="opacity-25"
-              cx="12"
-              cy="12"
-              r="10"
-              stroke="currentColor"
-              strokeWidth="4"
-            />
-            <path
-              className="opacity-75"
-              fill="currentColor"
-              d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-            />
-          </svg>
+        {isLoading ? (
+          <span className="inline-block w-4 h-4 border-2 border-current border-t-transparent rounded-full animate-spin" />
+        ) : (
+          leftIcon && <span className="shrink-0">{leftIcon}</span>
         )}
-        {!isLoading && leftIcon && <span className="inline-flex shrink-0">{leftIcon}</span>}
         <span>{children}</span>
-        {!isLoading && rightIcon && <span className="inline-flex shrink-0">{rightIcon}</span>}
+        {!isLoading && rightIcon && <span className="shrink-0">{rightIcon}</span>}
       </button>
     );
   }
 );
 
 Button.displayName = "Button";
-

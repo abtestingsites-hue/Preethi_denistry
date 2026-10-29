@@ -1,7 +1,8 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { Calendar, Menu } from "lucide-react";
+import { Menu, Calendar, Phone, ArrowUpRight } from "lucide-react";
+import { clinicInfo } from "@/data/clinicInfo";
 import { Button } from "@/components/ui/Button";
 import { MobileNavigation } from "./MobileNavigation";
 import { cn } from "@/lib/utils";
@@ -10,50 +11,39 @@ interface SiteHeaderProps {
   onBookAppointmentClick: () => void;
 }
 
-export function SiteHeader({ onBookAppointmentClick }: SiteHeaderProps) {
+const NAV_LINKS = [
+  { name: "About", href: "#about" },
+  { name: "Invisalign®", href: "#invisalign" },
+  { name: "Treatments", href: "#treatments" },
+  { name: "Our Clinic", href: "#gallery" },
+  { name: "Stories", href: "#stories" },
+  { name: "Contact", href: "#contact" },
+];
+
+export const SiteHeader: React.FC<SiteHeaderProps> = ({
+  onBookAppointmentClick,
+}) => {
   const [isScrolled, setIsScrolled] = useState(false);
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [activeSection, setActiveSection] = useState("hero");
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 20);
-
-      // Simple active section detection
-      const sections = [
-        "hero",
-        "about",
-        "treatments",
-        "invisalign",
-        "gallery",
-        "testimonials",
-        "contact",
-      ];
-      const scrollPosition = window.scrollY + 120;
-
-      for (const sectionId of sections) {
-        const el = document.getElementById(sectionId);
-        if (el) {
-          const top = el.offsetTop;
-          const height = el.offsetHeight;
-          if (scrollPosition >= top && scrollPosition < top + height) {
-            setActiveSection(sectionId);
-            break;
-          }
-        }
-      }
+      setIsScrolled(window.scrollY > 24);
     };
 
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const scrollToSection = (id: string) => {
-    const el = document.getElementById(id);
-    if (el) {
-      const headerOffset = 80;
-      const elPosition = el.getBoundingClientRect().top;
-      const offsetPosition = elPosition + window.pageYOffset - headerOffset;
+  const handleScrollTo = (href: string) => {
+    setMobileMenuOpen(false);
+    const id = href.replace("#", "");
+    const element = document.getElementById(id);
+    if (element) {
+      const headerOffset = 90;
+      const elementPosition = element.getBoundingClientRect().top;
+      const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+
       window.scrollTo({
         top: offsetPosition,
         behavior: "smooth",
@@ -61,124 +51,94 @@ export function SiteHeader({ onBookAppointmentClick }: SiteHeaderProps) {
     }
   };
 
-  const navItems = [
-    { label: "Home", id: "hero" },
-    { label: "About", id: "about" },
-    { label: "Treatments", id: "treatments" },
-    { label: "Invisalign", id: "invisalign" },
-    { label: "Clinic Gallery", id: "gallery" },
-    { label: "Patient Stories", id: "testimonials" },
-    { label: "Contact", id: "contact" },
-  ];
-
   return (
     <>
       <header
         className={cn(
-          "sticky top-0 z-40 w-full transition-all duration-300",
+          "sticky top-0 z-40 w-full transition-all duration-200 bg-white border-b",
           isScrolled
-            ? "bg-white/95 backdrop-blur-md shadow-subtle border-b border-[#E5EAE4]"
-            : "bg-white border-b border-[#E5EAE4]/60"
+            ? "border-[#E8E9E5] shadow-subtle py-3.5"
+            : "border-[#E8E9E5] py-4"
         )}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-20">
-            {/* Wordmark / Brand Identity */}
+          <div className="flex items-center justify-between">
+            {/* Logo Aligned to Left */}
             <a
-              href="#hero"
+              href="#"
               onClick={(e) => {
                 e.preventDefault();
-                scrollToSection("hero");
+                window.scrollTo({ top: 0, behavior: "smooth" });
               }}
-              className="flex items-center gap-3 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#668C63] rounded-lg p-1"
+              className="group flex items-center gap-3 select-none focus:outline-none"
             >
-              {/* Brand Aligner Arc Mark */}
-              <div className="w-9 h-9 rounded-full bg-[#EAF3E9] border border-[#B8D8B5]/60 flex items-center justify-center text-[#668C63] group-hover:bg-[#B8D8B5]/40 transition-colors">
-                <svg
-                  className="w-5 h-5 text-[#668C63]"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  aria-hidden="true"
-                >
-                  <path d="M4 14c2-5 7-9 12-7 4 1 5 4 4 7-1 2-3 3-5 3s-4-2-6-3-4 0-5 0" />
-                </svg>
+              <div className="w-8 h-8 rounded-full bg-[#C7DDB0] text-[#252724] flex items-center justify-center font-serif text-base font-semibold group-hover:bg-[#5C7651] group-hover:text-white transition-colors duration-200">
+                P
               </div>
-
               <div className="flex flex-col">
-                <span className="font-serif text-xl sm:text-2xl text-[#111311] tracking-tight font-semibold leading-tight group-hover:text-[#466A45] transition-colors">
-                  Dr. Preethi’s
+                <span className="text-sm sm:text-base font-semibold tracking-tight text-[#252724] font-sans">
+                  {clinicInfo.name}
                 </span>
-                <span className="text-[10px] tracking-[0.24em] uppercase text-[#666B66] font-medium">
-                  Dentistry · Coimbatore
+                <span className="text-[10px] text-[#858780] tracking-wider uppercase font-medium">
+                  {clinicInfo.locality} · {clinicInfo.city}
                 </span>
               </div>
             </a>
 
-            {/* Desktop Navigation Links */}
-            <nav
-              aria-label="Main Navigation"
-              className="hidden lg:flex items-center gap-7"
-            >
-              {navItems.map((item) => {
-                const isActive = activeSection === item.id;
-                return (
-                  <button
-                    key={item.id}
-                    onClick={() => scrollToSection(item.id)}
-                    className={cn(
-                      "text-sm font-medium transition-colors relative py-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#668C63] rounded",
-                      isActive
-                        ? "text-[#466A45] font-semibold"
-                        : "text-[#666B66] hover:text-[#111311]"
-                    )}
-                  >
-                    <span>{item.label}</span>
-                    {isActive && (
-                      <span className="absolute bottom-0 left-0 right-0 h-[2px] bg-[#668C63] rounded-full animate-in fade-in" />
-                    )}
-                  </button>
-                );
-              })}
+            {/* Desktop Navigation Links Grouped Right */}
+            <nav className="hidden lg:flex items-center gap-7">
+              {NAV_LINKS.map((link) => (
+                <button
+                  key={link.name}
+                  onClick={() => handleScrollTo(link.href)}
+                  className="text-xs font-medium text-[#252724] hover:text-[#5C7651] transition-colors duration-150 tracking-wide select-none"
+                >
+                  {link.name}
+                </button>
+              ))}
             </nav>
 
-            {/* Right Desktop CTA & Mobile Toggle */}
+            {/* Far Right Action & Mobile Toggle */}
             <div className="flex items-center gap-3">
+              <a
+                href={`tel:${clinicInfo.phoneRaw}`}
+                className="hidden xl:inline-flex items-center gap-1.5 text-xs text-[#858780] hover:text-[#252724] transition-colors px-2 py-1"
+              >
+                <Phone className="w-3.5 h-3.5 text-[#5C7651]" />
+                <span>{clinicInfo.phoneDisplay}</span>
+              </a>
+
               <Button
-                variant="primary"
+                variant="dark"
                 size="sm"
+                className="text-xs font-medium"
                 onClick={onBookAppointmentClick}
-                className="hidden sm:inline-flex"
-                leftIcon={<Calendar className="w-3.5 h-3.5" />}
+                rightIcon={<ArrowUpRight className="w-3.5 h-3.5 text-[#C7DDB0]" />}
               >
                 Book Appointment
               </Button>
 
-              {/* Mobile Menu Trigger */}
+              {/* Mobile menu trigger */}
               <button
-                onClick={() => setIsMobileMenuOpen(true)}
-                aria-label="Open mobile navigation menu"
-                className="lg:hidden p-2 rounded-lg text-[#111311] hover:bg-[#EAF3E9] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#668C63]"
+                onClick={() => setMobileMenuOpen(true)}
+                aria-label="Open mobile navigation"
+                className="lg:hidden p-2 rounded-full text-[#252724] hover:bg-[#F8F8F4] border border-[#E8E9E5] transition-colors"
               >
-                <Menu className="w-6 h-6" />
+                <Menu className="w-4 h-4" />
               </button>
             </div>
           </div>
         </div>
       </header>
 
-      {/* Responsive Drawer Navigation */}
+      {/* Mobile Drawer */}
       <MobileNavigation
-        isOpen={isMobileMenuOpen}
-        onClose={() => setIsMobileMenuOpen(false)}
-        activeSection={activeSection}
-        onNavigate={scrollToSection}
+        isOpen={mobileMenuOpen}
+        onClose={() => setMobileMenuOpen(false)}
+        navLinks={NAV_LINKS}
+        onNavigate={handleScrollTo}
         onBookAppointment={onBookAppointmentClick}
       />
     </>
   );
-}
-
+};

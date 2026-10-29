@@ -1,42 +1,47 @@
 import React from "react";
 import { cn } from "@/lib/utils";
 
-export interface BadgeProps extends React.HTMLAttributes<HTMLSpanElement> {
-  variant?: "brand" | "pastel" | "dark" | "outline";
-  dot?: boolean;
+interface BadgeProps {
+  children: React.ReactNode;
+  variant?: "brand" | "pastel" | "pistachio" | "sage" | "dark" | "outline" | "white";
+  size?: "sm" | "md";
+  className?: string;
+  icon?: React.ReactNode;
 }
 
-export function Badge({
-  className,
-  variant = "pastel",
-  dot = false,
+export const Badge: React.FC<BadgeProps> = ({
   children,
-  ...props
-}: BadgeProps) {
+  variant = "pistachio",
+  size = "md",
+  className,
+  icon,
+}) => {
   const variantStyles = {
-    brand: "bg-[#668C63] text-white",
-    pastel: "bg-[#EAF3E9] text-[#466A45] border border-[#B8D8B5]/40",
-    dark: "bg-[#111411] text-white",
-    outline: "bg-white text-[#111311] border border-[#E5EAE4]",
+    brand: "bg-[#5C7651] text-white",
+    pistachio: "bg-[#C7DDB0] text-[#252724]",
+    pastel: "bg-[#C7DDB0] text-[#252724]",
+    sage: "bg-[#A9C49A] text-[#252724]",
+    dark: "bg-[#252724] text-white",
+    white: "bg-white text-[#252724] border border-[#E8E9E5] shadow-sm",
+    outline: "border border-[#E8E9E5] text-[#252724] bg-white/70",
+  };
+
+  const sizeStyles = {
+    sm: "text-[11px] px-2.5 py-0.5 font-medium tracking-wide",
+    md: "text-xs px-3.5 py-1 font-medium tracking-wide",
   };
 
   return (
     <span
       className={cn(
-        "inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium tracking-wide uppercase",
+        "inline-flex items-center gap-1.5 rounded-full",
         variantStyles[variant],
+        sizeStyles[size],
         className
       )}
-      {...props}
     >
-      {dot && (
-        <span
-          className="w-1.5 h-1.5 rounded-full bg-[#668C63] animate-pulse"
-          aria-hidden="true"
-        />
-      )}
+      {icon && <span className="shrink-0">{icon}</span>}
       {children}
     </span>
   );
-}
-
+};

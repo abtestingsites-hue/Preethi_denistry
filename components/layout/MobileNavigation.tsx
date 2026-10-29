@@ -1,149 +1,125 @@
 "use client";
 
 import React, { useEffect } from "react";
-import { X, Calendar, Phone, Sparkles, MapPin } from "lucide-react";
+import { X, Calendar, Phone, MapPin, Sparkles, ArrowRight } from "lucide-react";
 import { clinicInfo } from "@/data/clinicInfo";
+import { Button } from "@/components/ui/Button";
+
+interface NavLinkItem {
+  name: string;
+  href: string;
+}
 
 interface MobileNavigationProps {
   isOpen: boolean;
   onClose: () => void;
-  activeSection: string;
-  onNavigate: (sectionId: string) => void;
+  navLinks: NavLinkItem[];
+  onNavigate: (href: string) => void;
   onBookAppointment: () => void;
 }
 
-export function MobileNavigation({
+export const MobileNavigation: React.FC<MobileNavigationProps> = ({
   isOpen,
   onClose,
-  activeSection,
+  navLinks,
   onNavigate,
   onBookAppointment,
-}: MobileNavigationProps) {
+}) => {
   useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "Escape" && isOpen) {
-        onClose();
-      }
-    };
     if (isOpen) {
       document.body.style.overflow = "hidden";
-      window.addEventListener("keydown", handleKeyDown);
     } else {
       document.body.style.overflow = "unset";
     }
     return () => {
       document.body.style.overflow = "unset";
-      window.removeEventListener("keydown", handleKeyDown);
     };
-  }, [isOpen, onClose]);
+  }, [isOpen]);
 
   if (!isOpen) return null;
 
-  const navLinks = [
-    { label: "Home", id: "hero" },
-    { label: "About", id: "about" },
-    { label: "Treatments", id: "treatments" },
-    { label: "Invisalign", id: "invisalign" },
-    { label: "Clinic Gallery", id: "gallery" },
-    { label: "Patient Stories", id: "testimonials" },
-    { label: "Contact", id: "contact" },
-  ];
-
   return (
     <div
-      role="dialog"
+      className="fixed inset-0 z-50 lg:hidden bg-[#111310]/50 backdrop-blur-xs transition-opacity duration-200"
       aria-modal="true"
-      aria-label="Mobile Navigation Menu"
-      className="fixed inset-0 z-50 flex flex-col bg-white lg:hidden animate-in fade-in duration-200"
+      role="dialog"
+      aria-label="Mobile Navigation"
     >
-      {/* Header Bar */}
-      <div className="flex items-center justify-between px-6 py-5 border-b border-[#E5EAE4]">
-        <div className="flex flex-col">
-          <span className="font-serif text-xl tracking-tight text-[#111311]">
-            Dr. Preethi’s
-          </span>
-          <span className="text-[10px] tracking-[0.25em] text-[#666B66] uppercase font-semibold">
-            Dentistry · Coimbatore
-          </span>
-        </div>
-        <button
-          onClick={onClose}
-          aria-label="Close navigation menu"
-          className="p-2 rounded-full text-[#111311] hover:bg-[#EAF3E9] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#668C63]"
-        >
-          <X className="w-6 h-6" />
-        </button>
-      </div>
-
-      {/* Nav List */}
-      <div className="flex-1 overflow-y-auto px-6 py-6 space-y-2">
-        <nav aria-label="Mobile Menu Links">
-          <ul className="space-y-1">
-            {navLinks.map((item) => {
-              const isActive = activeSection === item.id;
-              return (
-                <li key={item.id}>
-                  <button
-                    onClick={() => {
-                      onNavigate(item.id);
-                      onClose();
-                    }}
-                    className={`w-full text-left py-3 px-4 rounded-xl text-lg font-medium transition-all ${
-                      isActive
-                        ? "bg-[#EAF3E9] text-[#466A45] font-semibold"
-                        : "text-[#111311] hover:bg-[#F7FAF7] hover:text-[#466A45]"
-                    }`}
-                  >
-                    {item.label}
-                  </button>
-                </li>
-              );
-            })}
-          </ul>
-        </nav>
-
-        {/* Feature badge */}
-        <div className="pt-6">
-          <div className="p-4 rounded-2xl bg-[#F7FAF7] border border-[#E5EAE4] space-y-2">
-            <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-[#668C63]">
-              <Sparkles className="w-3.5 h-3.5" />
-              <span>Invisalign® Suite</span>
+      <div className="fixed inset-y-0 right-0 w-full max-w-xs bg-white shadow-float flex flex-col justify-between p-6 overflow-y-auto border-l border-[#E8E9E5]">
+        <div>
+          {/* Top Bar */}
+          <div className="flex items-center justify-between pb-5 border-b border-[#E8E9E5]">
+            <div>
+              <span className="text-sm font-semibold tracking-tight text-[#252724] block">
+                {clinicInfo.name}
+              </span>
+              <span className="text-[11px] text-[#5C7651] flex items-center gap-1 mt-0.5 font-medium">
+                <MapPin className="w-3 h-3" />
+                {clinicInfo.locality}, {clinicInfo.city}
+              </span>
             </div>
-            <p className="text-xs text-[#666B66]">
-              Clear aligner consultations and digital treatment planning in Saibaba Colony.
+            <button
+              onClick={onClose}
+              aria-label="Close menu"
+              className="p-2 rounded-full text-[#252724] hover:bg-[#F8F8F4] border border-[#E8E9E5] transition-colors"
+            >
+              <X className="w-4 h-4" />
+            </button>
+          </div>
+
+          {/* Links */}
+          <nav className="mt-6 space-y-1">
+            {navLinks.map((link) => (
+              <button
+                key={link.name}
+                onClick={() => {
+                  onClose();
+                  onNavigate(link.href);
+                }}
+                className="w-full text-left px-3 py-3 rounded-lg text-sm font-medium text-[#252724] hover:bg-[#F8F8F4] hover:text-[#5C7651] transition-colors flex items-center justify-between"
+              >
+                <span>{link.name}</span>
+                <ArrowRight className="w-3.5 h-3.5 text-[#858780]" />
+              </button>
+            ))}
+          </nav>
+
+          {/* Invisalign Highlight Box */}
+          <div className="mt-6 p-4 rounded-clinic bg-[#F8F8F4] border border-[#E8E9E5]">
+            <div className="flex items-center gap-2 text-xs font-semibold text-[#252724]">
+              <Sparkles className="w-3.5 h-3.5 text-[#5C7651]" />
+              <span>Invisalign® Consultations</span>
+            </div>
+            <p className="text-[11px] text-[#858780] mt-1.5 leading-relaxed">
+              Discreet orthodontic smile evaluations available in Saibaba Colony, Coimbatore.
             </p>
           </div>
         </div>
-      </div>
 
-      {/* Action Footer */}
-      <div className="p-6 border-t border-[#E5EAE4] bg-[#F7FAF7] space-y-3">
-        <button
-          onClick={() => {
-            onClose();
-            onBookAppointment();
-          }}
-          className="w-full flex items-center justify-center gap-2 py-3.5 px-6 rounded-full bg-[#668C63] text-white font-medium hover:bg-[#466A45] shadow-sm transition-colors"
-        >
-          <Calendar className="w-4 h-4" />
-          <span>Book Appointment</span>
-        </button>
+        {/* Bottom Actions */}
+        <div className="pt-6 border-t border-[#E8E9E5] space-y-3">
+          <Button
+            variant="dark"
+            size="md"
+            className="w-full text-xs font-medium"
+            leftIcon={<Calendar className="w-4 h-4 text-[#C7DDB0]" />}
+            onClick={() => {
+              onClose();
+              onBookAppointment();
+            }}
+          >
+            Book an Appointment
+          </Button>
 
-        <div className="flex items-center justify-between text-xs text-[#666B66] pt-1">
           <a
             href={`tel:${clinicInfo.phoneRaw}`}
-            className="flex items-center gap-1.5 hover:text-[#111311]"
+            className="w-full flex items-center justify-center gap-2 py-2.5 px-4 rounded-full border border-[#E8E9E5] text-xs font-medium text-[#252724] hover:bg-[#F8F8F4] transition-colors"
           >
-            <Phone className="w-3.5 h-3.5 text-[#668C63]" />
-            <span>{clinicInfo.phoneDisplay}</span>
+            <Phone className="w-3.5 h-3.5 text-[#5C7651]" />
+            <span>Call Reception</span>
           </a>
-          <div className="flex items-center gap-1">
-            <MapPin className="w-3.5 h-3.5 text-[#668C63]" />
-            <span>Saibaba Colony</span>
-          </div>
         </div>
       </div>
     </div>
   );
-}
-
+};

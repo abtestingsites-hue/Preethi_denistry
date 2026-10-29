@@ -1,8 +1,7 @@
 "use client";
 
 import React from "react";
-import Image from "next/image";
-import { ArrowRight, Sparkles, Scan, CalendarCheck, Compass, Info } from "lucide-react";
+import { ArrowUpRight, Sparkles, Check, AlertCircle } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import { AlignerGraphic } from "@/components/ui/AlignerGraphic";
 
@@ -10,144 +9,101 @@ interface InvisalignFeatureProps {
   onEnquireInvisalign: () => void;
 }
 
-export function InvisalignFeature({
+export const InvisalignFeature: React.FC<InvisalignFeatureProps> = ({
   onEnquireInvisalign,
-}: InvisalignFeatureProps) {
-  const invisalignFeatures = [
-    {
-      step: "01",
-      title: "Clear-Aligner Consultation",
-      description:
-        "Comprehensive oral evaluation, digital bite scans, and one-on-one discussion of your aesthetic and orthodontic aspirations.",
-      icon: Scan,
-    },
-    {
-      step: "02",
-      title: "Personalized Treatment Planning",
-      description:
-        "A 3D virtual roadmap simulating tooth movement step-by-step so you can visualize the intended progression prior to tray fabrication.",
-      icon: Compass,
-    },
-    {
-      step: "03",
-      title: "Guidance Throughout the Journey",
-      description:
-        "Regular 4–6 week progress check-ins at our Saibaba Colony clinic ensuring your aligners fit comfortably and track predictably.",
-      icon: CalendarCheck,
-    },
-  ];
-
+}) => {
   return (
-    <section
-      id="invisalign"
-      aria-label="Invisalign Clear Aligner Experience"
-      className="py-20 lg:py-32 bg-[#EAF3E9]/60 border-y border-[#E5EAE4]"
-    >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Section Header */}
-        <div className="max-w-3xl mb-14 lg:mb-20 space-y-3">
-          <div className="flex items-center gap-2 text-xs font-semibold tracking-[0.2em] uppercase text-[#668C63]">
-            <Sparkles className="w-4 h-4 text-[#668C63]" />
-            <span>ORTHODONTIC SIGNATURE</span>
-          </div>
-          <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl text-[#111311] tracking-tight leading-[1.15]">
-            A Clearer Approach to Your Smile.
-          </h2>
-          <p className="text-base sm:text-lg text-[#666B66] leading-relaxed pt-1">
-            Explore clear-aligner treatment options and learn whether they may be suitable
-            for your individual dental needs through a professional consultation in Saibaba Colony.
-          </p>
-        </div>
+    <section id="invisalign" className="bg-[#111310] text-white py-20 sm:py-28 relative overflow-hidden">
+      {/* Background Subtle Gradient Glow */}
+      <div className="absolute top-1/2 right-1/4 -translate-y-1/2 w-96 h-96 rounded-full bg-[#5C7651]/20 blur-3xl pointer-events-none" />
 
-        {/* Feature Experience Composition */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-14 items-center">
-          {/* Left Column: Visual Tray & Photography Composition (6 cols) */}
-          <div className="lg:col-span-6 relative">
-            <div className="relative rounded-3xl overflow-hidden border border-[#B8D8B5]/60 bg-white shadow-elevated p-3 sm:p-4">
-              {/* Authentic Clinic Display Image */}
-              <div className="relative h-72 sm:h-96 w-full rounded-2xl overflow-hidden">
-                <Image
-                  src="https://images.unsplash.com/photo-1598256989800-fe5f95da9787?auto=format&fit=crop&w=1200&q=85"
-                  alt="Invisalign Clear Aligner Consultation Suite at Dr. Preethi's Dentistry"
-                  fill
-                  className="object-cover"
-                  sizes="(max-width: 1024px) 100vw, 50vw"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
-
-                <div className="absolute bottom-4 left-4 right-4 text-white text-xs">
-                  <span className="font-semibold text-[#B8D8B5] uppercase tracking-wider text-[10px]">
-                    Discreet Orthodontic System
-                  </span>
-                  <p className="text-white/90">Removable custom aligners engineered from biocompatible polymers</p>
-                </div>
-              </div>
-
-              {/* Floating Translucent Aligner Graphic Overlap */}
-              <div className="absolute -top-6 -right-6 sm:-right-8 z-20 hidden sm:block">
-                <AlignerGraphic size="md" animated={true} />
-              </div>
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
+          {/* Left Column: Dark Editorial Typography & Action (6 cols) */}
+          <div className="lg:col-span-6 space-y-6 sm:space-y-8">
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/10 border border-white/15 text-xs text-[#C7DDB0] tracking-wider uppercase font-medium">
+              <Sparkles className="w-3.5 h-3.5 text-[#C7DDB0]" />
+              <span>SIGNATURE ORTHODONTICS</span>
             </div>
 
-            {/* Ambient Green Decorative Accents */}
-            <div className="absolute -bottom-8 -left-8 w-48 h-48 bg-[#B8D8B5]/40 rounded-full blur-3xl pointer-events-none -z-10" />
-          </div>
-
-          {/* Right Column: 3 Guided Feature Pillars & Consultation CTA (6 cols) */}
-          <div className="lg:col-span-6 space-y-6">
-            <div className="space-y-4">
-              {invisalignFeatures.map((item) => {
-                const Icon = item.icon;
-                return (
-                  <div
-                    key={item.step}
-                    className="p-5 rounded-2xl bg-white border border-[#E5EAE4] shadow-subtle hover:border-[#B8D8B5] transition-all duration-300 space-y-2 group"
-                  >
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-3">
-                        <div className="w-8 h-8 rounded-lg bg-[#EAF3E9] text-[#466A45] flex items-center justify-center text-xs font-bold group-hover:bg-[#B8D8B5]/40 transition-colors">
-                          <Icon className="w-4 h-4 text-[#668C63]" />
-                        </div>
-                        <h3 className="font-serif text-lg font-semibold text-[#111311] group-hover:text-[#466A45] transition-colors">
-                          {item.title}
-                        </h3>
-                      </div>
-                      <span className="font-mono text-xs font-semibold text-[#668C63]">
-                        {item.step}
-                      </span>
-                    </div>
-                    <p className="text-xs sm:text-sm text-[#666B66] leading-relaxed pl-11">
-                      {item.description}
-                    </p>
-                  </div>
-                );
-              })}
-            </div>
-
-            {/* Medical Transparency Note */}
-            <div className="p-4 rounded-xl bg-white/80 border border-[#E5EAE4] flex items-start gap-3 text-xs text-[#666B66]">
-              <Info className="w-4 h-4 text-[#668C63] shrink-0 mt-0.5" />
-              <p>
-                <strong className="text-[#111311]">Clinical Advisory:</strong> Clear-aligner treatment suitability requires an individualized clinical assessment and digital diagnostic evaluation by a qualified dental professional.
+            <div className="space-y-3">
+              <h2 className="text-3xl sm:text-5xl lg:text-6xl font-normal tracking-tight text-white font-sans leading-[1.1]">
+                A clearer path to your smile.
+              </h2>
+              <p className="text-lg sm:text-xl font-serif italic text-[#C7DDB0]">
+                Discreet. Removable. Custom-calibrated.
               </p>
             </div>
 
-            {/* Primary Action Button */}
-            <div className="pt-2">
+            <p className="text-xs sm:text-sm text-[#E8E9E5]/80 leading-relaxed max-w-lg font-normal">
+              Invisalign® clear aligners offer a modern, wire-free alternative to traditional braces. Utilizing advanced 3D digital treatment scanning, each clear tray is customized to guide your teeth into optimal biological alignment with minimal disruption to your daily lifestyle.
+            </p>
+
+            {/* Key Advantages */}
+            <div className="space-y-2.5 pt-2">
+              <div className="flex items-center gap-3 text-xs sm:text-sm text-white">
+                <span className="w-5 h-5 rounded-full bg-[#C7DDB0] text-[#111310] flex items-center justify-center shrink-0">
+                  <Check className="w-3 h-3 stroke-[3]" />
+                </span>
+                <span>Virtually invisible transparent design for professional confidence</span>
+              </div>
+              <div className="flex items-center gap-3 text-xs sm:text-sm text-white">
+                <span className="w-5 h-5 rounded-full bg-[#C7DDB0] text-[#111310] flex items-center justify-center shrink-0">
+                  <Check className="w-3 h-3 stroke-[3]" />
+                </span>
+                <span>Easily removable for dining, brushing, and special occasions</span>
+              </div>
+              <div className="flex items-center gap-3 text-xs sm:text-sm text-white">
+                <span className="w-5 h-5 rounded-full bg-[#C7DDB0] text-[#111310] flex items-center justify-center shrink-0">
+                  <Check className="w-3 h-3 stroke-[3]" />
+                </span>
+                <span>Digital 3D simulation of your planned smile progress before starting</span>
+              </div>
+            </div>
+
+            {/* CTA & Suitability Disclaimer */}
+            <div className="pt-4 space-y-4">
               <Button
-                variant="primary"
+                variant="pistachio"
                 size="lg"
                 onClick={onEnquireInvisalign}
-                className="w-full sm:w-auto"
-                rightIcon={<ArrowRight className="w-4 h-4" />}
+                rightIcon={<ArrowUpRight className="w-4 h-4 text-[#252724]" />}
               >
-                Enquire About Invisalign
+                Enquire About Invisalign®
               </Button>
+
+              <div className="flex items-start gap-2 text-[11px] text-[#858780] max-w-md">
+                <AlertCircle className="w-3.5 h-3.5 text-[#C7DDB0] shrink-0 mt-0.5" />
+                <span>
+                  * Invisalign treatment suitability is determined following a comprehensive clinical evaluation by Dr. Preethi in Saibaba Colony, Coimbatore.
+                </span>
+              </div>
+            </div>
+          </div>
+
+          {/* Right Column: Custom Animated Clear Aligner Graphic & 3-Step Journey (6 cols) */}
+          <div className="lg:col-span-6 flex flex-col items-center justify-center space-y-8">
+            {/* The SVG Aligner Artwork */}
+            <AlignerGraphic />
+
+            {/* 3-Step Consultation Journey Bar */}
+            <div className="w-full max-w-md grid grid-cols-3 gap-2.5 p-3 rounded-clinic bg-white/5 border border-white/10 text-center">
+              <div className="space-y-1">
+                <span className="text-[10px] text-[#C7DDB0] font-mono block">STEP 01</span>
+                <span className="text-xs font-medium text-white block">Digital 3D Scan</span>
+              </div>
+              <div className="space-y-1 border-x border-white/10">
+                <span className="text-[10px] text-[#C7DDB0] font-mono block">STEP 02</span>
+                <span className="text-xs font-medium text-white block">Custom Trays</span>
+              </div>
+              <div className="space-y-1">
+                <span className="text-[10px] text-[#C7DDB0] font-mono block">STEP 03</span>
+                <span className="text-xs font-medium text-white block">Straight Smile</span>
+              </div>
             </div>
           </div>
         </div>
       </div>
     </section>
   );
-}
-
+};

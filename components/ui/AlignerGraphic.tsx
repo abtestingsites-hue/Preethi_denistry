@@ -1,146 +1,75 @@
 import React from "react";
-import { cn } from "@/lib/utils";
 
-interface AlignerGraphicProps {
-  className?: string;
-  size?: "sm" | "md" | "lg" | "xl";
-  animated?: boolean;
-}
-
-export function AlignerGraphic({
-  className,
-  size = "md",
-  animated = true,
-}: AlignerGraphicProps) {
-  const sizeMap = {
-    sm: "w-28 h-20",
-    md: "w-48 h-32",
-    lg: "w-72 h-48",
-    xl: "w-96 h-64",
-  };
-
+export const AlignerGraphic: React.FC = () => {
   return (
-    <div
-      className={cn(
-        "relative flex items-center justify-center select-none pointer-events-none",
-        sizeMap[size],
-        animated && "animate-float",
-        className
-      )}
-      aria-hidden="true"
-    >
-      {/* Background Soft Refractive Glow */}
-      <div className="absolute inset-0 bg-gradient-to-tr from-[#B8D8B5]/25 to-[#EAF3E9]/40 blur-2xl rounded-full transform scale-90" />
-
-      {/* Clear Aligner Tray SVG with Precision Dental Scallops */}
+    <div className="relative w-full max-w-md mx-auto aspect-square flex items-center justify-center select-none">
+      {/* Outer Orbit Paths */}
       <svg
-        viewBox="0 0 320 220"
+        className="absolute inset-0 w-full h-full animate-spin-slow pointer-events-none"
+        viewBox="0 0 400 400"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
-        className="w-full h-full drop-shadow-[0_12px_28px_rgba(102,140,99,0.18)]"
       >
-        <defs>
-          {/* Glass Translucent Gradient */}
-          <linearGradient id="alignerGlassGrad" x1="20" y1="20" x2="300" y2="200" gradientUnits="userSpaceOnUse">
-            <stop offset="0%" stopColor="#FFFFFF" stopOpacity="0.85" />
-            <stop offset="25%" stopColor="#EAF3E9" stopOpacity="0.55" />
-            <stop offset="50%" stopColor="#B8D8B5" stopOpacity="0.3" />
-            <stop offset="75%" stopColor="#FFFFFF" stopOpacity="0.75" />
-            <stop offset="100%" stopColor="#B8D8B5" stopOpacity="0.4" />
-          </linearGradient>
-
-          {/* Tray Edge Reflection Gradient */}
-          <linearGradient id="trayRimGrad" x1="0" y1="0" x2="320" y2="100" gradientUnits="userSpaceOnUse">
-            <stop offset="0%" stopColor="#B8D8B5" stopOpacity="0.9" />
-            <stop offset="40%" stopColor="#668C63" stopOpacity="0.7" />
-            <stop offset="60%" stopColor="#FFFFFF" stopOpacity="0.95" />
-            <stop offset="100%" stopColor="#B8D8B5" stopOpacity="0.8" />
-          </linearGradient>
-
-          {/* Tooth Ridge Highlight */}
-          <linearGradient id="ridgeHighlight" x1="160" y1="20" x2="160" y2="180" gradientUnits="userSpaceOnUse">
-            <stop offset="0%" stopColor="#FFFFFF" stopOpacity="0.9" />
-            <stop offset="100%" stopColor="#FFFFFF" stopOpacity="0.1" />
-          </linearGradient>
-
-          {/* Subtle Inner Glow Filter */}
-          <filter id="softGlow" x="-10%" y="-10%" width="120%" height="120%">
-            <feGaussianBlur stdDeviation="2" result="blur" />
-            <feComposite in="SourceGraphic" in2="blur" operator="over" />
-          </filter>
-        </defs>
-
-        {/* Outer Parabolic Smile Arc (Orthodontic Aligner Contour) */}
-        <path
-          d="M 40 185 
-             C 45 130, 80 50, 160 40 
-             C 240 50, 275 130, 280 185
-             C 260 178, 230 165, 215 155
-             C 185 135, 135 135, 105 155
-             C 90 165, 60 178, 40 185 Z"
-          fill="url(#alignerGlassGrad)"
-          stroke="url(#trayRimGrad)"
-          strokeWidth="1.8"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-
-        {/* Precision Gingival Scallop Line (Anterior to Posterior) */}
-        <path
-          d="M 52 175
-             Q 58 152, 68 148
-             Q 80 144, 92 135
-             Q 106 124, 122 118
-             Q 140 110, 160 110
-             Q 180 110, 198 118
-             Q 214 124, 228 135
-             Q 240 144, 252 148
-             Q 262 152, 268 175"
-          stroke="url(#trayRimGrad)"
-          strokeWidth="1.2"
-          strokeDasharray="4 2"
-          opacity="0.85"
-        />
-
-        {/* Incisal Cusp Edges & Micro-Contours */}
-        <g opacity="0.75" stroke="#FFFFFF" strokeWidth="1.2">
-          {/* Central Incisors */}
-          <path d="M 148 42 Q 160 38, 172 42" />
-          <path d="M 160 40 L 160 70" strokeOpacity="0.4" strokeDasharray="2 2" />
-
-          {/* Lateral Incisors */}
-          <path d="M 124 50 Q 138 45, 148 42" />
-          <path d="M 172 42 Q 182 45, 196 50" />
-
-          {/* Canines */}
-          <path d="M 100 66 Q 112 56, 124 50" />
-          <path d="M 196 50 Q 208 56, 220 66" />
-
-          {/* Premolars & Molars Arch */}
-          <path d="M 78 95 Q 88 80, 100 66" />
-          <path d="M 220 66 Q 232 80, 242 95" />
-
-          <path d="M 58 135 Q 68 115, 78 95" />
-          <path d="M 242 95 Q 252 115, 262 135" />
-        </g>
-
-        {/* Translucent Surface Light Refraction Arc */}
-        <path
-          d="M 75 140 C 105 75, 215 75, 245 140"
-          stroke="url(#ridgeHighlight)"
-          strokeWidth="2.5"
-          strokeLinecap="round"
-          opacity="0.6"
-        />
-
-        {/* Precision Laser-Etched Measurement Grid Points */}
-        <circle cx="160" cy="52" r="1.5" fill="#668C63" opacity="0.7" />
-        <circle cx="130" cy="62" r="1.2" fill="#668C63" opacity="0.6" />
-        <circle cx="190" cy="62" r="1.2" fill="#668C63" opacity="0.6" />
-        <circle cx="106" cy="80" r="1.2" fill="#668C63" opacity="0.5" />
-        <circle cx="214" cy="80" r="1.2" fill="#668C63" opacity="0.5" />
+        <circle cx="200" cy="200" r="185" stroke="#C7DDB0" strokeWidth="1" strokeDasharray="4 8" strokeOpacity="0.4" />
+        <circle cx="200" cy="200" r="145" stroke="#A9C49A" strokeWidth="1" strokeDasharray="2 6" strokeOpacity="0.3" />
+        <circle cx="345" cy="200" r="4" fill="#C7DDB0" />
+        <circle cx="200" cy="55" r="3" fill="#A9C49A" />
       </svg>
+
+      {/* Central Translucent Aligner Graphic */}
+      <div className="relative w-72 h-72 rounded-full bg-white/5 border border-white/10 backdrop-blur-sm flex items-center justify-center p-6 shadow-2xl animate-float">
+        <svg
+          className="w-full h-full text-[#C7DDB0]"
+          viewBox="0 0 240 240"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          {/* Subtle glow filter */}
+          <defs>
+            <filter id="alignerGlow" x="-20%" y="-20%" width="140%" height="140%">
+              <feGaussianBlur stdDeviation="6" result="blur" />
+              <feComposite in="SourceGraphic" in2="blur" operator="over" />
+            </filter>
+          </defs>
+
+          {/* Outer Aligner Arch Silhouette */}
+          <path
+            d="M 40 170 C 40 80, 200 80, 200 170 C 190 175, 175 160, 160 145 C 145 130, 95 130, 80 145 C 65 160, 50 175, 40 170 Z"
+            fill="rgba(199, 221, 176, 0.12)"
+            stroke="#C7DDB0"
+            strokeWidth="2.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            filter="url(#alignerGlow)"
+          />
+
+          {/* Translucent Middle Contour */}
+          <path
+            d="M 50 162 C 55 95, 185 95, 190 162 C 178 152, 165 142, 150 135 C 135 128, 105 128, 90 135 C 75 142, 62 152, 50 162 Z"
+            fill="rgba(255, 255, 255, 0.08)"
+            stroke="#A9C49A"
+            strokeWidth="1.5"
+            strokeDasharray="4 2"
+          />
+
+          {/* Individual Tooth Calibration Notches */}
+          <line x1="60" y1="140" x2="68" y2="135" stroke="#C7DDB0" strokeWidth="1.5" />
+          <line x1="85" y1="120" x2="92" y2="115" stroke="#C7DDB0" strokeWidth="1.5" />
+          <line x1="120" y1="110" x2="120" y2="103" stroke="#FFFFFF" strokeWidth="2" />
+          <line x1="148" y1="115" x2="155" y2="120" stroke="#C7DDB0" strokeWidth="1.5" />
+          <line x1="172" y1="135" x2="180" y2="140" stroke="#C7DDB0" strokeWidth="1.5" />
+
+          {/* Precision Alignment Measurement Crosshairs */}
+          <line x1="120" y1="50" x2="120" y2="80" stroke="#858780" strokeWidth="1" strokeDasharray="2 2" />
+          <line x1="100" y1="65" x2="140" y2="65" stroke="#858780" strokeWidth="1" />
+          <circle cx="120" cy="65" r="3" fill="#C7DDB0" />
+        </svg>
+
+        {/* Floating Precision Tag */}
+        <div className="absolute -bottom-3 bg-[#252724] border border-[#C7DDB0]/40 rounded-full px-3 py-1 text-[10px] text-[#C7DDB0] font-mono tracking-wider shadow-lg">
+          3D SCAN CALIBRATED
+        </div>
+      </div>
     </div>
   );
-}
-
+};

@@ -1,107 +1,73 @@
 "use client";
 
-import React, { useState } from "react";
-import { Sparkles, ArrowRight, X } from "lucide-react";
-import { clinicAnnouncements } from "@/data/announcementsData";
+import React from "react";
+import { SmileIllustration } from "@/components/ui/SmileIllustration";
+import { clinicInfo } from "@/data/clinicInfo";
+import { ArrowUpRight } from "lucide-react";
 
 interface AnnouncementMarqueeProps {
-  onBookClick?: () => void;
-  allowDismiss?: boolean;
+  onBookClick: () => void;
 }
 
-export function AnnouncementMarquee({
+const ANNOUNCEMENT_ITEMS = [
+  "INVISALIGN® CLEAR ALIGNER CONSULTATIONS",
+  "PREVENTIVE & AESTHETIC DENTAL CARE",
+  "SAIBABA COLONY, COIMBATORE",
+  "HOSPITAL-GRADE STERILIZATION PROTOCOLS",
+  "UNRUSHED DOCTOR DISCUSSIONS",
+  "DISCOVER YOUR SMILE POSSIBILITIES",
+];
+
+export const AnnouncementMarquee: React.FC<AnnouncementMarqueeProps> = ({
   onBookClick,
-  allowDismiss = true,
-}: AnnouncementMarqueeProps) {
-  const [isDismissed, setIsDismissed] = useState(false);
-
-  if (isDismissed) return null;
-
+}) => {
   return (
     <aside
-      aria-label="Clinic announcements and consultation advisory"
-      className="relative z-50 bg-[#F7FAF7] border-b border-[#E5EAE4] py-2 px-3 overflow-hidden select-none group transition-all duration-300"
+      aria-label="Clinic announcements and consultations"
+      className="relative z-50 bg-white border-b border-[#E8E9E5] text-[#252724] text-[11px] sm:text-xs font-medium tracking-wider uppercase overflow-hidden select-none"
     >
-      <div className="flex items-center justify-between max-w-7xl mx-auto gap-4">
-        {/* Infinite Looping Announcement Container */}
-        <div className="relative flex-1 overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_40px,black_calc(100%-40px),transparent)]">
-          <div className="flex w-max space-x-12 animate-marquee group-hover:[animation-play-state:paused] motion-reduce:[animation-play-state:paused]">
-            {/* Set 1 */}
-            <div className="flex items-center space-x-12 shrink-0">
-              {clinicAnnouncements.map((item) => (
-                <div key={`set1-${item.id}`} className="flex items-center gap-3 text-xs sm:text-sm text-[#111311]">
-                  <span className="inline-flex items-center justify-center p-1 rounded-full bg-[#EAF3E9] text-[#466A45]">
-                    <Sparkles className="w-3.5 h-3.5 text-[#668C63]" aria-hidden="true" />
-                  </span>
-                  {item.badge && (
-                    <span className="font-semibold text-[#466A45] tracking-wide uppercase text-[10px] px-2 py-0.5 rounded-full bg-[#B8D8B5]/30">
-                      {item.badge}
-                    </span>
-                  )}
-                  <span className="font-medium text-[#111311]">{item.text}</span>
-                  {item.highlight && (
-                    <span className="font-semibold text-[#668C63] hidden md:inline">
-                      · {item.highlight}
-                    </span>
-                  )}
-                  {item.ctaText && onBookClick && (
-                    <button
-                      onClick={onBookClick}
-                      className="inline-flex items-center gap-1 font-semibold text-[#466A45] hover:text-[#111311] underline underline-offset-4 ml-1 transition-colors"
-                    >
-                      <span>{item.ctaText}</span>
-                      <ArrowRight className="w-3 h-3" />
-                    </button>
-                  )}
-                </div>
+      <div className="max-w-full flex items-center py-2.5">
+        {/* Left static location indicator */}
+        <div className="hidden md:flex items-center gap-2 pl-6 pr-4 shrink-0 bg-white z-10 border-r border-[#E8E9E5]">
+          <span className="w-2 h-2 rounded-full bg-[#C7DDB0] animate-pulse" />
+          <span className="text-[11px] font-semibold text-[#5C7651] tracking-widest">
+            {clinicInfo.locality}
+          </span>
+        </div>
+
+        {/* Continuous looping marquee */}
+        <div className="flex-1 overflow-hidden relative group cursor-pointer" onClick={onBookClick}>
+          <div className="flex whitespace-nowrap animate-marquee group-hover:[animation-play-state:paused] will-change-transform">
+            {/* Sequence 1 */}
+            <div className="flex items-center shrink-0">
+              {ANNOUNCEMENT_ITEMS.map((text, idx) => (
+                <span key={`seq1-${idx}`} className="inline-flex items-center">
+                  <span className="hover:text-[#5C7651] transition-colors">{text}</span>
+                  <SmileIllustration variant="smileSeparator" />
+                </span>
               ))}
+              <span className="inline-flex items-center text-[#5C7651] font-semibold underline underline-offset-4 mr-4">
+                REQUEST CONSULTATION <ArrowUpRight className="w-3 h-3 ml-0.5" />
+              </span>
+              <SmileIllustration variant="smileSeparator" />
             </div>
 
-            {/* Set 2 (Duplicate for seamless continuous loop) */}
-            <div className="flex items-center space-x-12 shrink-0" aria-hidden="true">
-              {clinicAnnouncements.map((item) => (
-                <div key={`set2-${item.id}`} className="flex items-center gap-3 text-xs sm:text-sm text-[#111311]">
-                  <span className="inline-flex items-center justify-center p-1 rounded-full bg-[#EAF3E9] text-[#466A45]">
-                    <Sparkles className="w-3.5 h-3.5 text-[#668C63]" />
-                  </span>
-                  {item.badge && (
-                    <span className="font-semibold text-[#466A45] tracking-wide uppercase text-[10px] px-2 py-0.5 rounded-full bg-[#B8D8B5]/30">
-                      {item.badge}
-                    </span>
-                  )}
-                  <span className="font-medium text-[#111311]">{item.text}</span>
-                  {item.highlight && (
-                    <span className="font-semibold text-[#668C63] hidden md:inline">
-                      · {item.highlight}
-                    </span>
-                  )}
-                  {item.ctaText && onBookClick && (
-                    <button
-                      onClick={onBookClick}
-                      className="inline-flex items-center gap-1 font-semibold text-[#466A45] hover:text-[#111311] underline underline-offset-4 ml-1 transition-colors"
-                    >
-                      <span>{item.ctaText}</span>
-                      <ArrowRight className="w-3 h-3" />
-                    </button>
-                  )}
-                </div>
+            {/* Sequence 2 (seamless clone) */}
+            <div className="flex items-center shrink-0">
+              {ANNOUNCEMENT_ITEMS.map((text, idx) => (
+                <span key={`seq2-${idx}`} className="inline-flex items-center">
+                  <span className="hover:text-[#5C7651] transition-colors">{text}</span>
+                  <SmileIllustration variant="smileSeparator" />
+                </span>
               ))}
+              <span className="inline-flex items-center text-[#5C7651] font-semibold underline underline-offset-4 mr-4">
+                REQUEST CONSULTATION <ArrowUpRight className="w-3 h-3 ml-0.5" />
+              </span>
+              <SmileIllustration variant="smileSeparator" />
             </div>
           </div>
         </div>
-
-        {/* Optional Dismiss Control */}
-        {allowDismiss && (
-          <button
-            onClick={() => setIsDismissed(true)}
-            aria-label="Dismiss announcement strip"
-            className="text-[#666B66] hover:text-[#111311] p-1 rounded-full hover:bg-[#EAF3E9] transition-colors shrink-0"
-          >
-            <X className="w-3.5 h-3.5" />
-          </button>
-        )}
       </div>
     </aside>
   );
-}
-
+};
